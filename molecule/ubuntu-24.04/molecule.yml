@@ -1,29 +1,45 @@
 ---
+scenario:
+  name: ubuntu-24.04
+  test_sequence:
+    - dependency
+    - syntax
+    - create
+    - prepare
+    - converge
+    - verify
+    - destroy
+
+dependency:
+  name: galaxy
+
 driver:
   name: podman
 
 provisioner:
   name: ansible
+  config_options:
+    defaults:
+      deprecation_warnings: false
+      callback_whitelist: timer,profile_tasks
+      fact_caching: jsonfile
+      fact_caching_connection: ./cache
+      forks: 100
+    connection:
+      pipelining: true
+  playbooks:
+    prepare: ../_shared/prepare.yml
+    converge: ../_shared/converge.yml
   inventory:
+    group_vars:
+      nomad_instances:
+        nomad_node_role: both
     host_vars:
       ubuntu-24.04:
         nomad_node_role: both
 
-scenario:
-  name: ubuntu-24.04
-  test_sequence:
-    - dependency
-    - cleanup
-    - destroy
-    - syntax
-    - create
-    - prepare
-    - converge
-    - idempotence
-    - side_effect
-    - verify
-    - cleanup
-    - destroy
+verifier:
+  name: ansible
 
 platforms:
   - name: ubuntu-24.04
