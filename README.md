@@ -144,7 +144,7 @@ The role defines most of its variables in `defaults/main.yml`:
 ### `nomad_iface`
 
 - Nomad network interface
-- Default value: `{{ ansible_default_ipv4.interface }}`
+- Default value: `{{ ansible_facts.default_ipv4.interface }}`
 
 ### `nomad_node_name`
 
