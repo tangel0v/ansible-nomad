@@ -1,4 +1,30 @@
 ---
+driver:
+  name: podman
+
+provisioner:
+  name: ansible
+  inventory:
+    host_vars:
+      ubuntu-22.04:
+        nomad_node_role: both
+
+scenario:
+  name: ubuntu-22.04
+  test_sequence:
+    - dependency
+    - cleanup
+    - destroy
+    - syntax
+    - create
+    - prepare
+    - converge
+    - idempotence
+    - side_effect
+    - verify
+    - cleanup
+    - destroy
+
 platforms:
   - name: ubuntu-22.04
     groups:

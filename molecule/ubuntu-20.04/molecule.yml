@@ -1,4 +1,30 @@
 ---
+driver:
+  name: podman
+
+provisioner:
+  name: ansible
+  inventory:
+    host_vars:
+      ubuntu-20.04:
+        nomad_node_role: both
+
+scenario:
+  name: ubuntu-20.04
+  test_sequence:
+    - dependency
+    - cleanup
+    - destroy
+    - syntax
+    - create
+    - prepare
+    - converge
+    - idempotence
+    - side_effect
+    - verify
+    - cleanup
+    - destroy
+
 platforms:
   - name: ubuntu-20.04
     groups:
@@ -12,3 +38,4 @@ platforms:
       - /sys/fs/cgroup:/sys/fs/cgroup:rw
     privileged: true
     command: /bin/systemd
+
