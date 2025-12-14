@@ -22,7 +22,8 @@
       changed_when: "python_upgrade.rc == 0"
     
     - name: Find Python interpreter
-      raw: which python3.10 2>/dev/null && echo python3.10 || echo python3
+      shell: |
+        which python3.10 >/dev/null 2>&1 && echo "python3.10" || echo "python3"
       register: python_check
       changed_when: false
 
