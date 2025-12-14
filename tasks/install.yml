@@ -86,7 +86,7 @@
 - name: Install Nomad
   ansible.builtin.copy:
     src: "{{ install_temp.path }}/nomad"
-    dest: "{{ nomad_bin_dir }}"
+    dest: "{{ nomad_bin_dir }}/nomad"
     owner: "{{ nomad_user }}"
     group: "{{ nomad_group }}"
     mode: "0755"
