@@ -19,6 +19,8 @@ RUN if [ $(command -v apt-get) ]; then \
             apt-get update && apt-get install -y systemd python sudo bash ca-certificates iproute2 python-apt-common && apt-get clean; \
         elif grep -q "Debian GNU/Linux 11" /etc/os-release; then \
             apt-get update && apt-get install -y systemd python sudo bash ca-certificates iproute2 python-apt-common && apt-get clean; \
+        elif grep -q "Ubuntu 20.04" /etc/os-release; then \
+            apt-get update && apt-get install -y systemd python3.10 sudo bash ca-certificates iproute2 python3.10-distutils python3-apt && apt-get clean; \
         else \
             apt-get update && apt-get install -y systemd python3 sudo bash ca-certificates iproute2 python3-apt && apt-get clean; \
         fi \

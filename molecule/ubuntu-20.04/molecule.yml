@@ -25,15 +25,20 @@ provisioner:
       fact_caching: jsonfile
       fact_caching_connection: ./cache
       forks: 100
+      allow_unsafe_renders: true
     connection:
       pipelining: true
   playbooks:
+    create: create.yml
+    destroy: destroy.yml
     prepare: ../_shared/prepare.yml
     converge: ../_shared/converge.yml
   inventory:
     group_vars:
       nomad_instances:
         nomad_node_role: both
+        ansible_connection: podman
+        ansible_python_interpreter: /usr/bin/python3.10
     host_vars:
       ubuntu-20.04:
         nomad_node_role: both
@@ -45,7 +50,7 @@ platforms:
   - name: ubuntu-20.04
     groups:
       - nomad_instances
-    image: dokken/ubuntu-20.04
+    image: docker.io/dokken/ubuntu-20.04
     dockerfile: ../_shared/Dockerfile.j2
     capabilities:
       - SYS_ADMIN

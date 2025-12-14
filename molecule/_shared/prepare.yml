@@ -1,9 +1,29 @@
 ---
 - name: Prepare
-  hosts: localhost
-  connection: local
-
+  hosts: nomad_instances
+  gather_facts: false
+  
   tasks:
+    - name: Upgrade Python on Ubuntu 20.04
+      raw: |
+        if grep -q "Ubuntu 20.04" /etc/os-release; then
+          apt-get update && apt-get install -y python3.10 && apt-get clean
+        fi
+      become: true
+      register: python_upgrade
+      changed_when: "python_upgrade.rc == 0"
+    
+    - name: Find Python interpreter
+      raw: which python3.10 2>/dev/null && echo python3.10 || echo python3
+      register: python_check
+      changed_when: false
+
+    - name: Gather facts with discovered Python
+      setup:
+        gather_subset: min
+      vars:
+        ansible_python_interpreter: "{% if 'python3.10' in python_check.stdout %}/usr/bin/python3.10{% else %}/usr/bin/python3{% endif %}"
+
     - name: Install OS packages
       package:
         name: unzip
@@ -13,3 +33,4 @@
       pip:
         name: netaddr
       become: false
+      delegate_to: localhost
