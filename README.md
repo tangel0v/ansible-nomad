@@ -53,13 +53,13 @@ The role defines most of its variables in `defaults/main.yml`:
 ### `nomad_architecture_map`
 
 - This variable does not need to be changed in most cases
-- Default value: Dictionary translating ansible_architecture to HashiCorp
+- Default value: Dictionary translating ansible_facts.architecture to HashiCorp
   architecture naming convention
 
 ### `nomad_architecture`
 
 - Host architecture
-- Default value: determined by `{{ nomad_architecture_map[ansible_architecture] }}`
+- Default value: determined by `{{ nomad_architecture_map[ansible_facts.architecture] }}`
 
 ### `nomad_pkg`
 
@@ -144,7 +144,7 @@ The role defines most of its variables in `defaults/main.yml`:
 ### `nomad_iface`
 
 - Nomad network interface
-- Default value: `{{ ansible_default_ipv4.interface }}`
+- Default value: `{{ ansible_facts.default_ipv4.interface }}`
 
 ### `nomad_node_name`
 

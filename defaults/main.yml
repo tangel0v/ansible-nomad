@@ -46,7 +46,7 @@ nomad_architecture_map:
   aarch64: arm64
   32-bit: "386"
   64-bit: amd64
-nomad_architecture: "{{ nomad_architecture_map[ansible_architecture] }}"
+nomad_architecture: "{{ nomad_architecture_map[ansible_facts.architecture] }}"
 nomad_pkg: nomad_{{ nomad_version }}_linux_{{ nomad_architecture }}.zip
 nomad_zip_url: https://releases.hashicorp.com/nomad/{{ nomad_version }}/nomad_{{ nomad_version }}_linux_{{ nomad_architecture }}.zip
 nomad_checksum_file_url: https://releases.hashicorp.com/nomad/{{ nomad_version }}/nomad_{{ nomad_version }}_SHA256SUMS
@@ -80,7 +80,7 @@ nomad_datacenter: dc1
 nomad_region: global
 nomad_log_level: INFO
 nomad_syslog_enable: true
-nomad_iface: "{{ lookup('env', 'NOMAD_IFACE') | default(ansible_default_ipv4.interface, true) }}"
+nomad_iface: "{{ lookup('env', 'NOMAD_IFACE') | default(ansible_facts.default_ipv4.interface, true) }}"
 nomad_node_name: "{{ inventory_hostname_short }}"
 nomad_node_role: "{{ lookup('env', 'NOMAD_NODE_ROLE') | default('client', true) }}"
 nomad_leave_on_terminate: true
@@ -96,7 +96,7 @@ nomad_enabled_schedulers:
   - service
   - batch
   - system
-nomad_num_schedulers: "{{ ansible_processor_vcpus }}"
+nomad_num_schedulers: "{{ ansible_facts.processor_vcpus }}"
 nomad_node_gc_threshold: 24h
 nomad_job_gc_threshold: 4h
 nomad_eval_gc_threshold: 1h
@@ -130,8 +130,8 @@ nomad_chroot_env: false
 nomad_plugins: {}
 nomad_template_config: {}
 ### Addresses
-nomad_bind_address: "{{ hostvars[inventory_hostname]['ansible_' + nomad_iface]['ipv4']['address'] }}"
-nomad_advertise_address: "{{ hostvars[inventory_hostname]['ansible_' + nomad_iface]['ipv4']['address'] }}"
+nomad_bind_address: "{{ hostvars[inventory_hostname]['ansible_facts'][nomad_iface]['ipv4']['address'] }}"
+nomad_advertise_address: "{{ hostvars[inventory_hostname]['ansible_facts'][nomad_iface]['ipv4']['address'] }}"
 
 ### Ports
 nomad_ports:

@@ -1,6 +1,6 @@
 ---
 scenario:
-  name: ubuntu-22.04
+  name: ubuntu-24.04
   test_sequence:
     - dependency
     - syntax
@@ -39,17 +39,17 @@ provisioner:
         nomad_node_role: both
         ansible_connection: podman
     host_vars:
-      ubuntu-22.04:
+      ubuntu-24.04:
         nomad_node_role: both
 
 verifier:
   name: ansible
 
 platforms:
-  - name: ubuntu-22.04
+  - name: ubuntu-24.04
     groups:
       - nomad_instances
-    image: docker.io/dokken/ubuntu-22.04
+    image: docker.io/dokken/ubuntu-24.04
     dockerfile: ../_shared/Dockerfile.j2
     capabilities:
       - SYS_ADMIN
